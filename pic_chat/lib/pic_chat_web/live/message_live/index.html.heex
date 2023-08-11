@@ -1,7 +1,7 @@
 <.header>
   Listing Messages
   <:actions>
-    <.link patch={~p"/messages/new"}>
+    <.link navigate={~p"/messages/new"}>
       <.button>New Message</.button>
     </.link>
   </:actions>
@@ -17,7 +17,7 @@
     <div class="sr-only">
       <.link navigate={~p"/messages/#{message}"}>Show</.link>
     </div>
-    <.link patch={~p"/messages/#{message}/edit"}>Edit</.link>
+    <.link navigate={~p"/messages/#{message}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, message}}>
     <.link
@@ -29,13 +29,14 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="message-modal" show on_cancel={JS.patch(~p"/messages")}>
+<.modal :if={@live_action in [:new, :edit]} id="message-modal" show on_cancel={JS.navigate(~p"/messages")}>
   <.live_component
     module={PicChatWeb.MessageLive.FormComponent}
     id={@message.id || :new}
     title={@page_title}
     action={@live_action}
     message={@message}
-    patch={~p"/messages"}
+    navigate={~p"/messages"}
+    current_user={@current_user}
   />
 </.modal>
